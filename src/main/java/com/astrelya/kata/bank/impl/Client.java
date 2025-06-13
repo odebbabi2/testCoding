@@ -38,7 +38,6 @@ public class Client implements IClient {
 		productList.add(productType + "-" + amount);
 		monthyBalance=monthyBalance.add(BigDecimal.valueOf(amount));
 		
-
 	}
 	
 }
