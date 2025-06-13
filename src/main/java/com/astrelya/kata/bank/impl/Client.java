@@ -33,9 +33,31 @@ public class Client implements IClient {
 		return monthyBalance;
 	}
 
-	@Override
-	public void addProduct(String productType, Double amount) {
-		productList.add(productType + "-" + amount);
-		monthyBalance = monthyBalance.add(BigDecimal.valueOf(amount));
-	}
+    @Override
+    public void addProduct(String productType, Double amount) {
+        String productKey = productType.toLowerCase();
+
+        for (Object obj : productList) {
+            if (obj.getClass().getSimpleName().equalsIgnoreCase(productType)) {
+                throw new IllegalArgumentException(email + " cannot have two " + productType);
+            }
+        }
+        Object product = switch (productKey) {
+        case "livreta" -> new LivretA(amount);
+        case "ldd" -> new LDD(amount);
+        case "compteavue" -> new CompteAVue(amount);
+        default -> throw new IllegalArgumentException("Unknown product type: " + productType);
+    };
+
+    productList.add(product);
+
+    BigDecimal monthlyValue = switch (productKey) {
+        case "livreta" -> ((LivretA) product).getMonthlyValue();
+        case "ldd" -> ((LDD) product).getMonthlyValue();
+        case "compteavue" -> ((CompteAVue) product).getMonthlyValue();
+        default -> BigDecimal.ZERO;
+    };
+
+    monthlyBalance = monthlyBalance.add(monthlyValue);
+}
 }
