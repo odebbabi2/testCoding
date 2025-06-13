@@ -7,11 +7,14 @@ import java.util.Collection;
 import com.astrelya.kata.bank.IClient;
 
 public class Client implements IClient {
-	private final  String email;
+	private final String email;
 	private final Collection<Object> productList = new ArrayList<>();
 	private BigDecimal monthyBalance = java.math.BigDecimal.ZERO;
 
 	public Client(String email) {
+		if(!email.matches("^[\\w.-]@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+			throw new IllegalArgumentException(email+"is not valid email");
+		}
 		this.email = email;
 	}
 
@@ -33,7 +36,9 @@ public class Client implements IClient {
 	@Override
 	public void addProduct(String productType, Double amount) {
 		productList.add(productType + "-" + amount);
+		monthyBalance=monthyBalance.add(BigDecimal.valueOf(amount));
+		
 
 	}
-
+	
 }
