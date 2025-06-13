@@ -1,5 +1,9 @@
-package com.astrelya.kata.bank;
+package com.astrelya.kata.bank.impl;
 
+import com.astrelya.kata.bank.IBank;
+import com.astrelya.kata.bank.IClient;
+
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Bank implements IBank {
@@ -12,6 +16,11 @@ public class Bank implements IBank {
             throw new IllegalArgumentException("Client " + client.getEmail() + " already exist");
         }
         clients.put(client.getEmail(), client);
+    }
+
+    @Override
+    public Optional<IClient> findClientByEmail(String email) {
+        return Optional.ofNullable(clients.get(email));
     }
 
     public void addClient(Client client) {
@@ -28,5 +37,11 @@ public class Bank implements IBank {
 
     public List<IClient> getClientList() {
         return new ArrayList<>(clients.values());
+    }
+
+    public BigDecimal getMonthlyPNL() {
+        return clients.values().stream()
+                .map(IClient::getMonthlyBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
