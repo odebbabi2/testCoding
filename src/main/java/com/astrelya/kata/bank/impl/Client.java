@@ -12,8 +12,8 @@ public class Client implements IClient {
 	private BigDecimal monthyBalance = java.math.BigDecimal.ZERO;
 
 	public Client(String email) {
-		if(!email.matches("^[\\w.-]@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-			throw new IllegalArgumentException(email+"is not valid email");
+		if (!email.matches("^[\\w.-]@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+			throw new IllegalArgumentException(email + "is not valid email");
 		}
 		this.email = email;
 	}
@@ -36,8 +36,7 @@ public class Client implements IClient {
 	@Override
 	public void addProduct(String productType, Double amount) {
 		productList.add(productType + "-" + amount);
-		monthyBalance=monthyBalance.add(BigDecimal.valueOf(amount));
-		
+		monthyBalance = monthyBalance.add(BigDecimal.valueOf(amount));
+
 	}
-	
 }
