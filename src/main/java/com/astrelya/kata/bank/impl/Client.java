@@ -37,6 +37,5 @@ public class Client implements IClient {
 	public void addProduct(String productType, Double amount) {
 		productList.add(productType + "-" + amount);
 		monthyBalance = monthyBalance.add(BigDecimal.valueOf(amount));
-
 	}
 }
